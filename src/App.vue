@@ -1,19 +1,36 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Joke Api</h1>
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <HelloWorld :getJoke="getJoke" :joke="joke" />
+    <button @click="getJoke">Get Joke</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from "./components/HelloWorld.vue";
 
 export default {
-  name: 'App',
+  name: "App",
+  data() {
+    return {
+      joke: "",
+    };
+  },
+  beforeMount() {
+    this.getJoke();
+  },
+  methods: {
+    async getJoke() {
+      const res = await fetch("https://v2.jokeapi.dev/joke/Any?type=single");
+      const data = await res.json();
+      this.joke = data.joke;
+    },
+  },
   components: {
-    HelloWorld
-  }
-}
+    HelloWorld,
+  },
+};
 </script>
 
 <style>
